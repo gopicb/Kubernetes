@@ -7,4 +7,5 @@ RBAC Certificate Creation script
 4. modify the create user details in config file and remove the already created user list ( Example - remove admin users )
 5. check the file permission of certifications
 6. create the Role and role binding or cluster role binding
-7. share the certification and and config files to user and install kubectl in users machines 
+7. sudo kubectl apply -f role or rolebinding.yaml 
+8. share the certification and and config files to user and install kubectl in users machines 
