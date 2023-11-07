@@ -1,0 +1,101 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: python
+  name: python
+spec:
+  selector:
+    matchLabels:
+      app: python
+  template:
+    metadata:
+      labels:
+        app: python
+    spec:
+      containers:
+        - name: python
+          image: gopicb94/python-web:latest
+          ports:
+            - containerPort: 4949
+      imagePullSecrets:
+        - name: docker-login
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: python
+  name: python
+spec:
+  type: ClusterIP
+  ports:
+  - port: 4949
+  selector:
+    app: python
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: python
+  name: aks-helloworld-one
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aks-helloworld-one
+  template:
+    metadata:
+      labels:
+        app: aks-helloworld-one
+    spec:
+      containers:
+      - name: aks-helloworld-one
+        image: mcr.microsoft.com/azuredocs/aks-helloworld:v1
+        ports:
+        - containerPort: 80
+        env:
+        - name: TITLE
+          value: "Welcome to Azure Kubernetes Service (AKS)"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: python
+  name: aks-helloworld-one
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+  selector:
+    app: aks-helloworld-one
+
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace:  python
+  name: python-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: example.com
+      http:
+        paths:
+          - path: /apple
+            pathType: Prefix
+            backend:
+              service:
+                name: python
+                port:
+                  number: 4949
+
+          - path: /banana
+            pathType: Prefix
+            backend:
+              service:
+                name: aks-helloworld-one
+                port:
+                  number: 80

@@ -1,0 +1,52 @@
+*******Nginx ingress - Helm Chart********
+
+1. helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+
+2. helm install nginx-ingress ingress-nginx/ingress-nginx
+
+3. kubectl get pods -n ingress-nginx ( Namespace Optional )
+
+4. check ingress status --> kubectl get ingress -n ( Namespace Optional )
+
+
+*********Nginx ingress - Normal installtion************
+
+1. create Namespace for ingress-nginx controller
+
+2. wget https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.0.0/deploy/static/provider/cloud/deploy.yaml
+
+3. kubectl apply -f deploy.yaml 
+
+4. check the status of the pod and service with LoadBalancer IP
+
+   kubectl get pod -n ingress-nginx
+   kubectl get svc -n ingress-nginx
+
+
+
+
+
+Example :
+
+1. create namespace ( for Depolyment pod and Service )
+
+2. create the deployment and service and ingress config same yaml file with same deployment namespace
+
+3. Check the ingress status using below command
+
+     kubectl get pod -n ingress-nginx
+
+     kubectl get ingress -n python
+	 
+	 kubectl describe ingress -n python
+
+
+
+
+
+
+
+ 
+
+
+
