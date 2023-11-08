@@ -1,0 +1,5 @@
+1. kubectl apply -f dashboard.yml
+
+2. kubectl describe secret dashboard-reader-token -n kubernetes-dashboard
+
+3. access the webpage from https://url
