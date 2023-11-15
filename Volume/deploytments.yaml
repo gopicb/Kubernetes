@@ -1,0 +1,29 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: volume
+  name: python
+spec:
+  selector:
+    matchLabels:
+      app: python
+  template:
+    metadata:
+      labels:
+        app: python
+    spec:
+    containers:
+        - name: python
+          image: gopicb94/python-web:latest
+          ports:
+            - containerPort: 4949
+          volumeMounts:
+            - mountPath: /var/tmp/
+              name: volume
+    imagePullSecrets:
+        - name: docker-login
+    volumes:
+        - name: volume
+          persistentVolumeClaim:
+            claimName: chtetta-volume-pvc
